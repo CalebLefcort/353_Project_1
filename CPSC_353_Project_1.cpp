@@ -12,5 +12,9 @@ int main()
     cout << vigenere.encrypt("CAT") << endl;
     cout << one_time_pad.encrypt("CAT") << endl;
 
+    cout << caesar.decrypt(caesar.encrypt("CAT")) << endl;
+    cout << vigenere.decrypt(vigenere.encrypt("CAT")) << endl;
+    cout << one_time_pad.decrypt(one_time_pad.encrypt("CAT")) << endl;
+
     return 0;
 }
