@@ -6,7 +6,7 @@ const char ALPHA[27] = {'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', '
 
 int find_index(char ch)
 {
-  for (int i = 0; i < sizeof(ALPHA) - 1; i++)
+  for (int i = 0; i <= sizeof(ALPHA) - 1; i++)
   {
     if (ch == ALPHA[i])
     {
