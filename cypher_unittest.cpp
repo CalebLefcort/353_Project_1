@@ -3,14 +3,14 @@
 #include <cassert>
 #include "cypher.h"
 
+using namespace std;
+
 void test_encrypt_caeser();
 void test_decrypt_caeser();
 void test_encrypt_vigenere();
 void test_decrypt_vigenere();
 void test_encrypt_one_time_pad();
 void test_decrypt_one_time_pad();
-
-using namespace std;
 
 void test_encrypt_caeser()
 {
@@ -68,7 +68,7 @@ void test_encrypt_one_time_pad()
 {
     string message = "Hello";
     string key = "MAURA";
-    Vigenere OneTimePad_cypher(key);
+    OneTimePad OneTimePad_cypher(key);
     string expected_output = "TEEBO";
 
     string encrypted_message = OneTimePad_cypher.encrypt(message);
@@ -81,7 +81,7 @@ void test_decrypt_one_time_pad()
 {
     string message = "TEEBO";
     string key = "MAURA";
-    Vigenere OneTimePad_cypher(key);
+    OneTimePad OneTimePad_cypher(key);
     string expected_output = "HELLO";
 
     string encrypted_message = OneTimePad_cypher.decrypt(message);
