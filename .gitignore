@@ -1,0 +1,11 @@
+*.slo
+*.lo
+*.o
+*.obj
+*.exe
+*.ilk
+*.pdb
+*.out
+
+/.vscode
+/out

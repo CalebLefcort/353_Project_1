@@ -1,67 +1,291 @@
-#include <iostream>
-#include <string>
-#include <unordered_map>
-#include "Project_1.h"
+#include "cypher.h"
+#include <fstream>
+#include <regex>
 
 using namespace std;
 
+void encrypt(std::ofstream &outFile);
+void decrypt(std::ofstream &outFile);
+
 int main()
 {
-    test_encrypt_caeser();
-    test_encrypt_vigenere();
-    test_encrypt_one_time_pad();
-    // cout << caesar("CAT", 'B') << endl;
-    // cout << vigenere("CAT", "AB") << endl;
-    // cout << one_time_pad("CAT", "ABC") << endl;
 
+    std::ofstream outFile("output.txt");
+    while (true)
+    {
+        std::cout << "Choose an option:\n1. Encrypt\n2. Decrypt\n3. Exit\n";
+        int choice;
+        std::cin >> choice;
+
+        if (choice == 3)
+        {
+            break;
+        }
+        if (choice != 1 && choice != 2)
+        {
+            std::cout << "Invalid choice\n";
+            continue;
+        }
+        if (choice == 1)
+        {
+            encrypt(outFile);
+        }
+        else
+        {
+            decrypt(outFile);
+        }
+    }
+    outFile.close();
     return 0;
 }
 
-int find_index(char ch)
+void encrypt(std::ofstream &outFile)
 {
-    for (int i = 0; i < sizeof(ALPHA) - 1; i++)
+    string message;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    while (true)
     {
-        if (ch == ALPHA[i])
+        std::cout << "Enter text to encrypt: ";
+        std::getline(std::cin, message);
+
+        if (!std::regex_match(message, std::regex("^[a-zA-Z ]+$")))
         {
-            return i;
+            std::cout << "Error: Input must contain only letters and spaces\n";
+            continue;
+        }
+        else
+        {
+            break;
         }
     }
-    throw invalid_argument("Recived an invalid character");
-    return -1;
+
+    std::cout << "Choose cipher: \n1. Caesar\n2. Vigenere\n3. One-time pad\n";
+    int cipher_choice;
+    std::cin >> cipher_choice;
+
+    string key;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    while (true)
+    {
+        std::cout << "Enter key: ";
+        std::getline(std::cin, key);
+
+        if (!std::regex_match(message, std::regex("^[a-zA-Z ]+$")))
+        {
+            std::cout << "Error: Input must contain only letters and spaces\n";
+            continue;
+        }
+        else if (cipher_choice == 1 && key.length() != 1)
+        {
+            std::cout << "Error: Key must be a single letter\n";
+            continue;
+        }
+        else if (cipher_choice == 3 && key.length() != message.length())
+        {
+            std::cout << "Error: Key and message must be the same length\n";
+            continue;
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    for (int i = 0; i < key.length(); i++)
+    {
+        key[i] = toupper(key[i]);
+    }
+
+    string result;
+
+    if (cipher_choice == 1)
+    {
+        Caesar caesar(key[0]);
+        result = caesar.encrypt(message);
+        cout << endl;
+        cout << "Message: " << message << endl;
+        cout << "Key: " << key << endl;
+        cout << "Result: " << result << endl;
+        cout << endl;
+
+        if (outFile.is_open())
+        {
+            outFile << "Message: " << message << endl;
+            outFile << "Key: " << key << endl;
+            outFile << "Result: " << result << endl;
+            outFile << endl;
+        }
+        else
+        {
+            std::cout << "Unable to open file for writing" << std::endl;
+        }
+    }
+    if (cipher_choice == 2)
+    {
+        Vigenere vigenere(key);
+        result = vigenere.encrypt(message);
+        cout << endl;
+        cout << "Message: " << message << endl;
+        cout << "Key: " << key << endl;
+        cout << "Result: " << result << endl;
+        cout << endl;
+
+        if (outFile.is_open())
+        {
+            outFile << "Message: " << message << endl;
+            outFile << "Key: " << key << endl;
+            outFile << "Result: " << result << endl;
+            outFile << endl;
+        }
+        else
+        {
+            std::cout << "Unable to open file for writing" << std::endl;
+        }
+    }
+    if (cipher_choice == 3)
+    {
+        OneTimePad one_time_pad(key);
+        result = one_time_pad.encrypt(message);
+        cout << endl;
+        cout << "Message: " << message << endl;
+        cout << "Key: " << key << endl;
+        cout << "Result: " << result << endl;
+        cout << endl;
+
+        if (outFile.is_open())
+        {
+            outFile << "Message: " << message << endl;
+            outFile << "Key: " << key << endl;
+            outFile << "Result: " << result << endl;
+            outFile << endl;
+        }
+        else
+        {
+            std::cout << "Unable to open file for writing" << std::endl;
+        }
+    }
 }
 
-string caesar(string str, char key)
+void decrypt(std::ofstream &outFile)
 {
-    int keyVal = find_index(key);
-    for (int i = 0; i < str.length(); i++)
+    string message;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    while (true)
     {
-        str[i] = ALPHA[(find_index(toupper(str[i])) + keyVal) % 27];
-    }
-    return str;
-}
+        std::cout << "Enter text to decrypt: ";
+        std::getline(std::cin, message);
 
-string vigenere(string str, string key)
-{
-    if (key.length() >= str.length())
-    {
-        throw invalid_argument("Key length too long");
+        if (!std::regex_match(message, std::regex("^[a-zA-Z ]+$")))
+        {
+            std::cout << "Error: Input must contain only letters and spaces\n";
+            continue;
+        }
+        else
+        {
+            break;
+        }
     }
-    for (int i = 0; i < str.length(); i++)
-    {
-        str[i] = ALPHA[(find_index(toupper(str[i])) + find_index(key[i % key.length()])) % 27];
-    }
-    return str;
-}
+    std::cout << "Choose cipher: \n1. Caesar\n2. Vigenere\n3. One-time pad\n";
+    int cipher_choice;
+    std::cin >> cipher_choice;
 
-string one_time_pad(string str, string key)
-{
-    if (key.length() != str.length())
+    string key;
+    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    while (true)
     {
-        throw invalid_argument("Key and string must be the same length");
+        std::cout << "Enter key: ";
+        std::getline(std::cin, key);
+
+        if (!std::regex_match(message, std::regex("^[a-zA-Z ]+$")))
+        {
+            std::cout << "Error: Input must contain only letters and spaces\n";
+            continue;
+        }
+        else if (cipher_choice == 1 && key.length() != 1)
+        {
+            std::cout << "Error: Key must be a single letter\n";
+            continue;
+        }
+        else if (cipher_choice == 3 && key.length() != message.length())
+        {
+            std::cout << "Error: Key and message must be the same length\n";
+            continue;
+        }
+        else
+        {
+            break;
+        }
     }
-    for (int i = 0; i < str.length(); i++)
+    for (int i = 0; i < key.length(); i++)
     {
-        str[i] = ALPHA[(find_index(toupper(str[i])) + find_index(key[i])) % 27];
+        key[i] = toupper(key[i]);
     }
-    return str;
+    string result;
+
+    if (cipher_choice == 1)
+    {
+        Caesar caesar(key[0]);
+        result = caesar.decrypt(message);
+        cout << endl;
+        cout << "Message: " << message << endl;
+        cout << "Key: " << key << endl;
+        cout << "Result: " << result << endl;
+        cout << endl;
+
+        if (outFile.is_open())
+        {
+            outFile << "Message: " << message << endl;
+            outFile << "Key: " << key << endl;
+            outFile << "Result: " << result << endl;
+            outFile << endl;
+        }
+        else
+        {
+            std::cout << "Unable to open file for writing" << std::endl;
+        }
+    }
+    if (cipher_choice == 2)
+    {
+        Vigenere vigenere(key);
+        result = vigenere.decrypt(message);
+        cout << endl;
+        cout << "Message: " << message << endl;
+        cout << "Key: " << key << endl;
+        cout << "Result: " << result << endl;
+        cout << endl;
+
+        if (outFile.is_open())
+        {
+            outFile << "Message: " << message << endl;
+            outFile << "Key: " << key << endl;
+            outFile << "Result: " << result << endl;
+            outFile << endl;
+        }
+        else
+        {
+            std::cout << "Unable to open file for writing" << std::endl;
+        }
+    }
+    if (cipher_choice == 3)
+    {
+        OneTimePad one_time_pad(key);
+        result = one_time_pad.decrypt(message);
+        cout << endl;
+        cout << "Message: " << message << endl;
+        cout << "Key: " << key << endl;
+        cout << "Result: " << result << endl;
+        cout << endl;
+
+        if (outFile.is_open())
+        {
+            outFile << "Message: " << message << endl;
+            outFile << "Key: " << key << endl;
+            outFile << "Result: " << result << endl;
+            outFile << endl;
+        }
+        else
+        {
+            std::cout << "Unable to open file for writing" << std::endl;
+        }
+    }
 }
