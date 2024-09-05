@@ -1,8 +1,0 @@
-Message: LXFOPVEFRNHR
-Key: LEMON
-Result: ATUACKAUDAXN
-
-Message: dsaf
-Key: F
-Result: ZNWA
-
