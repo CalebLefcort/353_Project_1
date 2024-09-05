@@ -1,6 +1,7 @@
 #include "cypher.h"
 #include <fstream>
 #include <regex>
+#include <limits>
 
 using namespace std;
 
@@ -78,6 +79,10 @@ void encrypt(std::ofstream& outFile) {
 
     for (int i = 0; i < key.length(); i++) {
         key[i] = toupper(key[i]);
+    }
+
+    for (int i = 0; i < message.length(); i++) {
+        message[i] = toupper(message[i]);
     }
 
     string result;
