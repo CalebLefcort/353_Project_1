@@ -15,14 +15,15 @@ int main()
         int choice;
         std::cin >> choice;
         
+
         if (choice == 3) {
-            break;
+            return 0;
         }
         if (choice != 1 && choice != 2) {
             std::cout << "Invalid choice\n";
             continue;
         }
-        if (choice == 1) {
+        else if (choice == 1) {
             encrypt(outFile);
         }
         else {
