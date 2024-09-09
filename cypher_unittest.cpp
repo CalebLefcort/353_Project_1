@@ -12,6 +12,16 @@ void test_decrypt_vigenere();
 void test_encrypt_one_time_pad();
 void test_decrypt_one_time_pad();
 
+int main(void)
+{
+    test_encrypt_caeser();
+    test_decrypt_caeser();
+    test_encrypt_vigenere();
+    test_decrypt_vigenere();
+    test_encrypt_one_time_pad();
+    test_decrypt_one_time_pad();
+}
+
 void test_encrypt_caeser()
 {
     string message = "Hello";
