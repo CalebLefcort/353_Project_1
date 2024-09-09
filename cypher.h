@@ -20,7 +20,6 @@ public:
   {
     for (int i = 0; i < str.length(); i++)
     {
-      // TODO: RETURNING \000 TERMINATION CHARACTER INSTEAD OF ' '
       char shifted = shift_char(str[i], -key_val_[i % key_size_]);
       str[i] = std::isspace(shifted) ? ' ' : shifted;
     }
