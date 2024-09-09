@@ -1,3 +1,13 @@
+/*
+CPSC 353
+Group 3(Caleb Lefcort, Madison Spink, Maya Stelzer, Maura Sweeney)
+9/8/2024
+Project 1
+
+File Purpose: This file stores the alphabet used for our encryption and a 
+    function for traversing the array.
+*/
+
 #include <iostream>
 #include <string>
 #include <unordered_map>

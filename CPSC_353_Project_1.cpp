@@ -1,3 +1,13 @@
+/*
+CPSC 353
+Group 3(Caleb Lefcort, Madison Spink, Maya Stelzer, Maura Sweeney)
+9/8/2024
+Project 1
+
+File Purpose: This file is the central loop and file for the program allowing
+    the user to encrypt and decrypt a string with three different cyphers.
+*/
+
 #include "cypher.h"
 #include <fstream>
 #include <regex>

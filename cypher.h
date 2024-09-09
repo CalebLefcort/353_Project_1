@@ -1,3 +1,13 @@
+/*
+CPSC 353
+Group 3(Caleb Lefcort, Madison Spink, Maya Stelzer, Maura Sweeney)
+9/8/2024
+Project 1
+
+File Purpose: This file defines the base class cypher and the derived classes 
+    for each of the cyphers. 
+*/
+
 #include "common.h"
 #include <cctype>
 
