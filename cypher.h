@@ -1,3 +1,13 @@
+/*
+CPSC 353
+Group 3(Caleb Lefcort, Madison Spink, Maya Stelzer, Maura Sweeney)
+9/8/2024
+Project 1
+
+File Purpose: This file defines the base class cypher and the derived classes 
+    for each of the cyphers. 
+*/
+
 #include "common.h"
 #include <cctype>
 
@@ -20,7 +30,6 @@ public:
   {
     for (int i = 0; i < str.length(); i++)
     {
-      // TODO: RETURNING \000 TERMINATION CHARACTER INSTEAD OF ' '
       char shifted = shift_char(str[i], -key_val_[i % key_size_]);
       str[i] = std::isspace(shifted) ? ' ' : shifted;
     }

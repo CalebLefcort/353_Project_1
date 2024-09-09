@@ -1,6 +1,17 @@
+/*
+CPSC 353
+Group 3(Caleb Lefcort, Madison Spink, Maya Stelzer, Maura Sweeney)
+9/8/2024
+Project 1
+
+File Purpose: This file is the central loop and file for the program allowing
+    the user to encrypt and decrypt a string with three different cyphers.
+*/
+
 #include "cypher.h"
 #include <fstream>
 #include <regex>
+#include <limits>
 
 using namespace std;
 
@@ -16,18 +27,16 @@ int main()
         std::cout << "Choose an option:\n1. Encrypt\n2. Decrypt\n3. Exit\n";
         int choice;
         std::cin >> choice;
-
-        if (choice == 3)
-        {
-            break;
+        
+        if (choice == 3) {
+            return 0;
         }
         if (choice != 1 && choice != 2)
         {
             std::cout << "Invalid choice\n";
             continue;
         }
-        if (choice == 1)
-        {
+        else if (choice == 1) {
             encrypt(outFile);
         }
         else
@@ -94,6 +103,10 @@ void encrypt(std::ofstream &outFile)
     for (int i = 0; i < key.length(); i++)
     {
         key[i] = toupper(key[i]);
+    }
+
+    for (int i = 0; i < message.length(); i++) {
+        message[i] = toupper(message[i]);
     }
 
     string result;

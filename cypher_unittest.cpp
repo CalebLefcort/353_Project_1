@@ -1,3 +1,14 @@
+/*
+CPSC 353
+Group 3(Caleb Lefcort, Madison Spink, Maya Stelzer, Maura Sweeney)
+9/8/2024
+Project 1
+
+File Purpose: This file is used to test the encryption and decryption of each
+    cypher.
+*/
+
+
 #include <iostream>
 #include <string>
 #include <cassert>
