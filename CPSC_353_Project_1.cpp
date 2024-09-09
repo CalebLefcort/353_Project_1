@@ -28,7 +28,6 @@ int main()
         int choice;
         std::cin >> choice;
         
-
         if (choice == 3) {
             return 0;
         }
@@ -180,18 +179,22 @@ void encrypt(std::ofstream &outFile)
     }
 }
 
-void decrypt(std::ofstream& outFile){
+void decrypt(std::ofstream &outFile)
+{
     string message;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    while (true) {
+    while (true)
+    {
         std::cout << "Enter text to decrypt: ";
         std::getline(std::cin, message);
-        
-        if (!std::regex_match(message, std::regex("^[a-zA-Z ]+$"))) {
+
+        if (!std::regex_match(message, std::regex("^[a-zA-Z ]+$")))
+        {
             std::cout << "Error: Input must contain only letters and spaces\n";
             continue;
         }
-        else {
+        else
+        {
             break;
         }
     }
@@ -201,32 +204,39 @@ void decrypt(std::ofstream& outFile){
 
     string key;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    while (true) {
+    while (true)
+    {
         std::cout << "Enter key: ";
         std::getline(std::cin, key);
 
-        if (!std::regex_match(message, std::regex("^[a-zA-Z ]+$"))) {
+        if (!std::regex_match(message, std::regex("^[a-zA-Z ]+$")))
+        {
             std::cout << "Error: Input must contain only letters and spaces\n";
             continue;
         }
-        else if (cipher_choice == 1 && key.length() != 1) {
+        else if (cipher_choice == 1 && key.length() != 1)
+        {
             std::cout << "Error: Key must be a single letter\n";
             continue;
         }
-        else if (cipher_choice == 3 && key.length() != message.length()) {
+        else if (cipher_choice == 3 && key.length() != message.length())
+        {
             std::cout << "Error: Key and message must be the same length\n";
             continue;
         }
-        else {
+        else
+        {
             break;
         }
     }
-    for (int i = 0; i < key.length(); i++) {
+    for (int i = 0; i < key.length(); i++)
+    {
         key[i] = toupper(key[i]);
     }
     string result;
 
-    if (cipher_choice == 1) {
+    if (cipher_choice == 1)
+    {
         Caesar caesar(key[0]);
         result = caesar.decrypt(message);
         cout << endl;
@@ -235,17 +245,20 @@ void decrypt(std::ofstream& outFile){
         cout << "Result: " << result << endl;
         cout << endl;
 
-        if(outFile.is_open()) {
+        if (outFile.is_open())
+        {
             outFile << "Message: " << message << endl;
             outFile << "Key: " << key << endl;
             outFile << "Result: " << result << endl;
             outFile << endl;
         }
-        else {
+        else
+        {
             std::cout << "Unable to open file for writing" << std::endl;
         }
     }
-    if (cipher_choice == 2) {
+    if (cipher_choice == 2)
+    {
         Vigenere vigenere(key);
         result = vigenere.decrypt(message);
         cout << endl;
@@ -254,17 +267,20 @@ void decrypt(std::ofstream& outFile){
         cout << "Result: " << result << endl;
         cout << endl;
 
-        if(outFile.is_open()) {
+        if (outFile.is_open())
+        {
             outFile << "Message: " << message << endl;
             outFile << "Key: " << key << endl;
             outFile << "Result: " << result << endl;
             outFile << endl;
         }
-        else {
+        else
+        {
             std::cout << "Unable to open file for writing" << std::endl;
         }
     }
-    if (cipher_choice == 3) {
+    if (cipher_choice == 3)
+    {
         OneTimePad one_time_pad(key);
         result = one_time_pad.decrypt(message);
         cout << endl;
@@ -273,13 +289,15 @@ void decrypt(std::ofstream& outFile){
         cout << "Result: " << result << endl;
         cout << endl;
 
-        if(outFile.is_open()) {
+        if (outFile.is_open())
+        {
             outFile << "Message: " << message << endl;
             outFile << "Key: " << key << endl;
             outFile << "Result: " << result << endl;
             outFile << endl;
         }
-        else {
+        else
+        {
             std::cout << "Unable to open file for writing" << std::endl;
         }
     }
