@@ -7,36 +7,47 @@ using namespace std;
 
 void encrypt(std::ofstream &outFile);
 void decrypt(std::ofstream &outFile);
+string getFileName();
 
 int main()
 {
-
-    std::ofstream outFile("output.txt");
+    std::ofstream outFile;
     while (true)
     {
         std::cout << "Choose an option:\n1. Encrypt\n2. Decrypt\n3. Exit\n";
-        int choice;
+        string choice;
         std::cin >> choice;
-        
 
-        if (choice == 3) {
+        if (!std::regex_match(choice, std::regex("^[1-3]$")))
+        {
+            std::cout << "Invalid choice. Try again\n";
+        }
+        else if (stoi(choice) == 3) {
+            cout << "Goodbye!" << endl;
             return 0;
         }
-        if (choice != 1 && choice != 2)
-        {
-            std::cout << "Invalid choice\n";
-            continue;
-        }
-        else if (choice == 1) {
-            encrypt(outFile);
-        }
-        else
-        {
-            decrypt(outFile);
+        else {
+            if (!outFile.is_open()) {
+                outFile.open(getFileName());
+            }
+            if (stoi(choice) == 1) {
+                encrypt(outFile);
+            }
+            if (stoi(choice) == 2)
+            {
+                decrypt(outFile);
+            }
         }
     }
     outFile.close();
     return 0;
+}
+
+string getFileName() {
+    string fileName;
+    std::cout << "Enter file name: ";
+    std::cin >> fileName;
+    return fileName;
 }
 
 void encrypt(std::ofstream &outFile)
@@ -58,11 +69,21 @@ void encrypt(std::ofstream &outFile)
             break;
         }
     }
+    string cipher_choice;
+    while (true) {
+        std::cout << "Choose cipher: \n1. Caesar\n2. Vigenere\n3. One-time pad\n";
+        
+        std::cin >> cipher_choice;
 
-    std::cout << "Choose cipher: \n1. Caesar\n2. Vigenere\n3. One-time pad\n";
-    int cipher_choice;
-    std::cin >> cipher_choice;
-
+        if (!std::regex_match(cipher_choice, std::regex("^[1-3]$")))
+        {
+            std::cout << "Invalid choice. Try again\n";
+        }
+        else {
+            break;
+        }
+    }
+    
     string key;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
     while (true)
@@ -75,12 +96,12 @@ void encrypt(std::ofstream &outFile)
             std::cout << "Error: Input must contain only letters and spaces\n";
             continue;
         }
-        else if (cipher_choice == 1 && key.length() != 1)
+        else if (stoi(cipher_choice) == 1 && key.length() != 1)
         {
             std::cout << "Error: Key must be a single letter\n";
             continue;
         }
-        else if (cipher_choice == 3 && key.length() != message.length())
+        else if (stoi(cipher_choice) == 3 && key.length() != message.length())
         {
             std::cout << "Error: Key and message must be the same length\n";
             continue;
@@ -102,7 +123,7 @@ void encrypt(std::ofstream &outFile)
 
     string result;
 
-    if (cipher_choice == 1)
+    if (stoi(cipher_choice) == 1)
     {
         Caesar caesar(key[0]);
         result = caesar.encrypt(message);
@@ -124,7 +145,7 @@ void encrypt(std::ofstream &outFile)
             std::cout << "Unable to open file for writing" << std::endl;
         }
     }
-    if (cipher_choice == 2)
+    if (stoi(cipher_choice) == 2)
     {
         Vigenere vigenere(key);
         result = vigenere.encrypt(message);
@@ -146,7 +167,7 @@ void encrypt(std::ofstream &outFile)
             std::cout << "Unable to open file for writing" << std::endl;
         }
     }
-    if (cipher_choice == 3)
+    if (stoi(cipher_choice) == 3)
     {
         OneTimePad one_time_pad(key);
         result = one_time_pad.encrypt(message);
@@ -185,9 +206,20 @@ void decrypt(std::ofstream& outFile){
             break;
         }
     }
-    std::cout << "Choose cipher: \n1. Caesar\n2. Vigenere\n3. One-time pad\n";
-    int cipher_choice;
-    std::cin >> cipher_choice;
+    string cipher_choice;
+    while (true) {
+        std::cout << "Choose cipher: \n1. Caesar\n2. Vigenere\n3. One-time pad\n";
+        
+        std::cin >> cipher_choice;
+
+        if (!std::regex_match(cipher_choice, std::regex("^[1-3]$")))
+        {
+            std::cout << "Invalid choice. Try again\n";
+        }
+        else {
+            break;
+        }
+    }
 
     string key;
     std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -199,11 +231,11 @@ void decrypt(std::ofstream& outFile){
             std::cout << "Error: Input must contain only letters and spaces\n";
             continue;
         }
-        else if (cipher_choice == 1 && key.length() != 1) {
+        else if (stoi(cipher_choice) == 1 && key.length() != 1) {
             std::cout << "Error: Key must be a single letter\n";
             continue;
         }
-        else if (cipher_choice == 3 && key.length() != message.length()) {
+        else if (stoi(cipher_choice) == 3 && key.length() != message.length()) {
             std::cout << "Error: Key and message must be the same length\n";
             continue;
         }
@@ -216,7 +248,7 @@ void decrypt(std::ofstream& outFile){
     }
     string result;
 
-    if (cipher_choice == 1) {
+    if (stoi(cipher_choice) == 1) {
         Caesar caesar(key[0]);
         result = caesar.decrypt(message);
         cout << endl;
@@ -235,7 +267,7 @@ void decrypt(std::ofstream& outFile){
             std::cout << "Unable to open file for writing" << std::endl;
         }
     }
-    if (cipher_choice == 2) {
+    if (stoi(cipher_choice) == 2) {
         Vigenere vigenere(key);
         result = vigenere.decrypt(message);
         cout << endl;
@@ -254,7 +286,7 @@ void decrypt(std::ofstream& outFile){
             std::cout << "Unable to open file for writing" << std::endl;
         }
     }
-    if (cipher_choice == 3) {
+    if (stoi(cipher_choice) == 3) {
         OneTimePad one_time_pad(key);
         result = one_time_pad.decrypt(message);
         cout << endl;
